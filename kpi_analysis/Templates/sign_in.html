@@ -1,0 +1,156 @@
+{% include 'style.html' %}
+ {%load static%} 
+
+
+<head>
+  {% block title%}
+<title >KPI Analysis |LogIn </title>
+{%endblock title%}
+<style>
+
+
+  @media (max-width :  768px) {
+
+    .d-none{
+      display: block;
+    }
+    .login{
+      font-size: 1.3em;
+     
+    }
+  
+    .form_id {
+      max-width: 100% !important;
+      height: 90% !important;
+    }
+    .form_id #form-id {
+      width: 100vw !important;
+     
+      
+    }
+    .form_id #form-id .mobile-text{
+      margin-left: 2rem !important;
+      margin-right: 2rem !important;
+      font-size: 0.9em !important;
+      color: white !important;
+        
+      }
+      .form_id #form-id .btn-mobile{
+        text-align: left !important;
+      }
+  }
+  
+  
+  
+  
+      .fade-in {
+        animation: fadeIn 1s ease-in-out;
+      }
+    
+      @keyframes fadeIn {
+        from {
+          opacity: 0.2;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .fade-in2 {
+        animation: fadeIn2 1s ease-in-out;
+      }
+    
+      @keyframes fadeIn2 {
+        from {
+          opacity: 0.5;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+
+</head>
+<body>
+<main class="position-relative " >
+
+    <img
+   
+    src="{% static '../static/Images/econet.jpg'%}"
+     class="img-fluid d-block fade-in2 w-100"
+     style="height: 620px; margin-left: 0; position: absolute; z-index: -1"
+     alt="For Projects Guides"
+    
+   />
+   <br><br>     
+  <div class=" form_id  container-fluid d-flex align-items-center justify-content-center"> 
+          
+    <form id='form-id' class="shadow-lg bg-dark mt-5 "  method = 'POST'
+    style="width:400px"  >
+      {% csrf_token %}
+      <div class="mb-3  form"> 
+        <div class="error-class">
+          <br>
+          <h5 class="text-white login text-center">ECONET WIRELESS</h5>
+          <h4 class="login mx-sm-5 text-white text-center ">KPI<span class="text-info ">Analysis</span>System</h4>
+
+         
+        {% for message in messages %}
+         
+            <div class="  mx-sm-3 ">
+              {% if message.tags == 'warning'%}
+              <p class="text-danger text-center">{{message}}</p>
+              {%else%}
+              <p class="text-success text-center">{{message}}</p>
+            </div>
+            {%endif%} 
+          {%endfor%}
+        </div>
+        <br>
+      <div class="form mb-3 mobile-text text-white text-start mx-sm-5">
+         <label for ='username' class="form-label text-start user">Enter Domain Name</label>
+         <input
+          type="text"
+          name="username"
+          class="form-control input"
+          id='username'
+          required
+          aria-describedby="emailHelp"
+          required
+          spellcheck="true"
+        />
+      </div>
+      <div class="mb-3 text-start text-white mobile-text mx-sm-5 form">
+        <label for="password" class="form-label"> Enter Password</label>
+        <input
+          type="password"
+          name="password"
+          class="form-control input"
+          id='passowrd'
+          required
+          
+        /> 
+      
+      </div>
+     
+      
+      <div class="text-center">
+        <button type="submit" class="btn mb-4 w-50 btn-info button">
+          Log In
+        </button>
+      </div>
+      <H6 class="text-primary  text-center fst-italic"> <span class="text-white"> Hallo 25</span> Building Memories Together!</H6> <br>
+    </form>
+    
+  </div>
+  
+ 
+
+</main>
+
+
+
+ 
+  
+</body>
+
+ 

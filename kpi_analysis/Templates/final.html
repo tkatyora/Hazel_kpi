@@ -1,0 +1,101 @@
+{% include 'style.html' %}
+ {%load static%} 
+ {% load crispy_forms_tags %}
+
+
+<head>
+  {% block title%}
+<title >Econet Wireless KPI |Final Decision</title>
+{%endblock title%}
+<style>
+
+
+  @media (max-width :  768px) {
+    
+    .login{
+      color: black;
+      font-size: 1.1em;
+      margin-left: 0.5rem !important;
+      margin-right: 0.5rem !important;
+    }
+    .login2{
+     
+      font-size: 0.9em;
+      margin-left: 0.5rem !important;
+      margin-right: 0.5rem !important;
+    }
+      
+    }
+    .form_id #form-id .mobile-text{
+      margin-left: 2rem !important;
+      margin-right: 2rem !important;
+      font-size: 0.9em !important;
+      color: black;
+        
+      }
+      .form_id #form-id .btn-mobile{
+        text-align: left !important;
+      }
+   
+    </style>
+</head>
+<body>  
+  <nav
+  class="navbar navbar-expand-lg navbar-light shadow bg-light rounded fixed-top "
+>
+  <div class="container-xl">
+    <a href="{% url 'dashboard'%}" class="navbar-brand fs-5 ms-4 ">
+      Econet<span class="text-info fs-4 h2">Wireless</span>KPI(HUB)</a
+     >
+  </div>
+</nav>
+<br>
+  
+<main class="form_id container-fluid d-flex align-items-center  mt-5 justify-content-center">     
+   
+ <form id='form-id' class="shadow-lg  mobile-form mb-5"
+  method = 'POST'  style="width: 35%;">
+ {% csrf_token %}
+
+ 
+<div class="mb-3  form"> 
+   <div class="error-class">
+         <br>
+         <h4 class="login mx-sm-5 text-dark text-center ">Final Decision</h4>
+
+   </div>
+   <br> 
+
+   
+   
+   <div class=" text-start mobile-disp mobile-text  mx-sm-5">
+    
+    <p class="lead mt-3">
+      <strong>Effective from {{final.created_on.date}}</strong> 
+    </p>
+    <p class="lead mt-3">
+      <strong>  KPI Manager {{final.created_by.first_name}} {{final.created_by.last_name}}'s Final Decison</strong> 
+      <br>
+      <span class="text-secondary">
+        <strong>"{{final.body}}"</strong> 
+      </span> 
+    </p>
+   
+
+     
+   </div>
+
+    <br>  
+  
+   <br>  
+ </div>
+ <h6 class="fst-italic login2  text-center text-warning fw-bold">Econet Wireless Inspired To Change Your World</h6>
+ <br>
+</form>  
+  </main>
+</body>
+  
+
+ 
+
+

@@ -1,0 +1,61 @@
+{% extends 'common.html' %}
+ {%block content%} 
+ {%load static%}
+ {% load crispy_forms_tags %}
+{% block title%}
+<head>
+  <meta name="Key Words" content="Web Development, Free Blog Hosting,Static Websites,Web Application" />
+  <meta
+    name="description"
+    content="This page is creating new Detailed Discription of  services including service type and price aswell as functinality"
+  />
+    <title>kpi| Delete User</title>
+{%endblock title%}
+</head>
+ <br> 
+<form id="form-id" method="POST" enctype="multipart/form-data" class="shadow-lg sm-5 mx-5 mt-5"
+>
+{% csrf_token %}
+
+
+<div class="mt-5 text-center">
+  <br>
+  <h5 class="text-center"> Delete Below User </h5>
+</div>
+{% for message in messages %}
+
+<div class=" ">
+{% if message.tags == 'success'%}
+<p class="alert alert-success">{{message}}</p>
+{% else%}
+<p class="alert alert-warning">{{message}}</p>
+{%endif%} 
+</div>
+{%endfor%}
+
+<div class=" text-start  mx-3">
+  <p class="lead mt-3"> Are you sure you want to delete <strong>{{user.first_name.title}}</strong>
+      <strong>{{user.last_name}}</strong>  , with domain name<strong> {{user.username}}</strong> 
+   </p>
+
+  </div>
+
+<div class="text-start mb-5">
+<button type="submit" class="btn btn-danger ms-5 button ">
+    <i class="text-info fa-bounce fas fa-trash-alt"></i>
+ Yes
+</button>
+<button type="submit" class="btn btn-success ms-5 button ">
+  <a class="text-decoration-none text-black" href="{% url 'view_user'%}">
+    
+
+    <i class="text-info fas fa-times"></i>
+    No
+</a>
+  </button>
+</div>
+<br>
+
+</form>
+
+{%endblock content%}

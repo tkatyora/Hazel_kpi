@@ -1,0 +1,101 @@
+{% extends 'common.html' %}
+ {% block content%} 
+ {% load static%}
+   {% block title%}
+<head>
+  <meta name="Key Words" content="Dashboard">
+  <meta name="description" content="">
+<title>KPI</title>
+</head>
+{%endblock title%}
+
+<br />
+<br />
+
+
+<div class="album py-5 bg-body-tertiary">
+
+  <div class="container">
+    <h3 class="text-center mb-3">The cleaned Dataset For Analysis</h3>
+   
+  
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <div class="col">
+        <div class="card shadow-sm">
+          
+          <div class="card-body">
+            <ul class="list-unstyled d-block fw-bold">
+              <li class="mb-3"> Format : <span class="ms-1" >{{current.types}} </span> 
+              </li>
+              <li class="mb-3"> <span class="" > {{current.name}}  </span> 
+              </li>
+              <li class="mb-3"> <span class="" >Uploaded on <span class="ms-2 text-warning"> {{current.created_on.date}}</span>  </span> 
+              </li>
+              <li class="mb-3"> <span class="" >Uploaded by <span class="ms-2 text-info"> {{current.created_by.username}}</span> ({{current.created_by.roles}})  </span> 
+              </li>
+              <li class="mb-3"> Dataset have <span class="text-info" >  {{rows}}  </span> rows  and<span class=" text-info">  {{cols}} </span> columns
+              </li>
+              
+                
+
+             
+            </ul> 
+            <div class="d-flex justify-content-between align-items-center">
+             
+              <div class="btn-group">
+               
+                <button type="button" class="btn text-secondary btn-sm btn-outline-info">
+                  <a class="text-decoration-none text-secondary" href="{% url 'dashboard'%}">Back
+                </a>
+                </button>
+
+              </div>
+              <small class="text-body-secondary">current Dataset</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+        {% for data in datasets %}  
+      <div class="col">
+        <div class="card shadow-sm">
+          
+          <div class="card-body">
+            <ul class="list-unstyled d-block fw-bold">
+              <li class="mb-3"> Format : <span class="ms-1" >{{data.types}} </span> 
+              </li>
+              <li class="mb-3"> <span class="" >   {{data.name}}  </span> 
+              </li>
+              <li class="mb-3"> <span class="" >Uploaded on <span class="ms-2 text-warning"> {{data.created_on.date}}</span>  </span> 
+              </li>
+              <li class="mb-3"> <span class="" >Uploaded by <span class="ms-2 text-info"> {{data.created_by.username}}</span> ({{data.created_by.roles}})  </span> 
+              </li>
+             
+              
+                
+
+             
+            </ul> 
+            <div class="d-flex justify-content-between align-items-center">
+             
+              <div class="btn-group">
+               
+                <button type="button" class="btn text-secondary btn-sm btn-outline-info">
+                  <a class="text-decoration-none text-secondary" href="{% url 'dashboard'%}">Back
+                </a>
+                </button>
+
+              </div>
+              <small class="text-body-secondary">old Dataset</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      {%endfor%}
+    </div>
+  
+  </div>
+</div>
+
+ {% endblock content%}

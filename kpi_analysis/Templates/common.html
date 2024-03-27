@@ -1,0 +1,95 @@
+{% include 'style.html'%}
+{%load static %}
+
+
+  <body>
+    <!-- the navbar -->
+    <header>
+      <nav
+        class="navbar navbar-expand-lg navbar-dark shadow bg-dark rounded fixed-top "
+      >
+        <div class="container-xl">
+          <a href="{% url 'dashboard'%}" class="navbar-brand fs-5 ms-4 ">
+            Econet<span class="text-info fs-4 h2">Wireless</span>KPI(HUB)</a
+           >
+   
+          <div
+      class="collapse  navbar-collapse ms-5 me-2"
+      id="navbarsExample07XL">
+            
+            <div class="navbar-nav  nav-links">
+     
+          <a href="" class="text-start nav-link a-tags .navs-link  "> 
+            Logged in as 
+        {% if user.roles == None%}
+
+        staff
+        {%else%}
+
+        
+        {{user.roles}} 
+        {% endif%}
+        ~ {{user.email}} 
+           </a>
+
+             
+           </div>
+          </div>   
+    </div>
+
+      </nav>
+    </header>
+   
+    {% block content %} {% endblock content %}
+    <script src="{% static '../static/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'%}"></script>
+  </body>
+<br>
+<footer class=" bg-dark py-5 mt-0"> 
+  <div class="container"> 
+      <div class="row center">
+      
+          <div class="col-6 col-md-2 mb-3"> 
+              <h5  class="text-white">Get In Touch</h5> <hr>
+              <ul class="nav flex-column text-secondary">
+              <!-- <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Email :</a></li> -->
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0  text-secondary "><strong>your email</strong></a></li>
+             
+              </ul>
+          </div> 
+          <div class="col-6 col-md-2  mb-3">
+              <div class="text-end">
+              <h5 class="text-white">Econet</h5> <hr>
+              <ul class="nav flex-column text-secondary">
+              <li class="nav-item mb-2">Your Address</li>
+                <li class="nav-item mb-2">Harare</li>
+              </ul>
+          </div>
+      </div> 
+          <div class="col-6 col-md-2 mb-3">
+              <h5  class="text-white">Follow Us</h5> <hr>
+              <ul class="nav flex-column text-secondary">
+              <li class="nav-item mb-2  text-info"><a href="https://www.instagram.com/" class="nav-link p-0  text-secondary "><i class="fa-brands  a-tags fa-instagram"></i> Instagram</a></li>
+              <li class="nav-item mb-2"><a href="https://twitter.com/home"  class="nav-link p-0  text-secondary "> <i class="fa-brands facebook fa-twitter"></i> Twitter</a></li>
+              <li class="nav-item mb-2"><a href="https://www.facebook.com/" class="nav-link p-0  text-secondary"> <i class="fa-brands facebook a-tags fa-facebook"></i> Facebook</a></li>
+              </ul>
+          </div>
+          
+      </div> 
+       
+</div> 
+<div class="d-flex flex-column flex-sm-row mx-md-5 center justify-content-between py-4 my-4 border-top">
+  <p> Develped by TnR~Softwares</p>
+    <p>&copy; <span id="time">2024</span> Company, Inc. All rights reserved.</p>
+    <ul class="list-unstyled d-flex">
+      <li class="ms-3"><a class="link-light text-decoration-none " href="https://twitter.com/home"> <i class="fa-brands facebook fa-twitter"></i> Twitter</a></li>
+      <li class="ms-2"><a class="link-light  text-decoration-none" href="https://www.instagram.com/"><i class="fa-brands  a-tags fa-instagram"></i> Instagram</a></li>
+      <li class="ms-2"><a class="link-light  text-decoration-none" href="https://www.facebook.com/"><i class="fa-brands facebook a-tags fa-facebook"></i> Facebook</a></li>
+      <li class="ms-2"><a class="link-light text-decoration-none" href="https://www.facebook.com/"><i class="fa-brands facebok a-tags fa-linkedin"></i> LinkedIn</a></li>
+    </ul> 
+  </div> 
+
+
+</footer>
+</html>
+
+

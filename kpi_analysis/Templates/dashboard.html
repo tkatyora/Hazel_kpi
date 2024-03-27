@@ -38,15 +38,11 @@
             </li>
             {%if user.roles == 'admin'   or user.is_superuser %}
             <li class="mb-2"><a class=" text-decoration-none " href="{% url 'add_user'%}">Add New Staff</a> </li>
-            <li class="mb-2"><a class=" text-decoration-none " href="{% url 'upload_dataset'%}">Upload Dataset</a> </li>
-            <li class="mb-2"><a class=" text-decoration-none " href="{% url 'analysis_variable'%}">KPI Analysis Variable</a> </li>
+
             {%endif%}
             {% if user.roles == 'admin'   or user.is_superuser or user.is_supervisor  %}
             <li class="mb-2"><a class=" text-decoration-none" href="{% url 'view_user'%}">View Analysis Team</a> </li>
              {%endif%}
-           
-              <li class="mb-2"><a class=" text-decoration-none" href="{% url 'logout' %}">The Final Analysis</a> </li>
-            </li>
             <li class="mb-2"><a class=" text-decoration-none" href="{% url 'logout' %}">Log Out</a> </li>
             </li>
          
@@ -71,6 +67,8 @@
               <li class="mb-2"><a class="text-decoration-none" href="">View Technition Comment</a> </li>
               {%if  user.is_supervisor or user.is_superuser %}
               <li class="mb-2"><a class=" text-decoration-none" href="{% url 'add_comment'%}">Create Final Report</a> </li>
+
+              <li class="mb-2"><a class=" text-decoration-none text-warning fw-bolder " href="{% url 'final'%}">Managers Final Decision</a> </li>
               {%endif%}
             </ul> 
             <div class="d-flex justify-content-between align-items-center">
@@ -97,6 +95,7 @@
               
               {%if user.is_supervisor or user.is_superuser%}  
               <li class="mb-2"><a class=" text-decoration-none " href="{% url 'view_dataset'%}">View DataSet</a> </li>
+              <li class="mb-2"><a class=" text-decoration-none " href="{% url 'analysis_variable'%}">View KPI Analysis Variable</a> </li>
               </li> 
               {%endif%} 
               {%if user.is_technition or user.is_superuser%}   
@@ -123,9 +122,13 @@
           <div class="card-body">
             <h3>Decision Making</h3> <hr>
             <ul class="list-unstyled d-block">
-            <li class="mb-2"><a class="text-decoration-none" href="">View Supervisor Report</a> </li>
-            <li class="mb-2"><a class=" text-decoration-none "  href="{% url 'add_comment'%}">Final Comment/Decisom</a> </li>
-          </li>
+            <li class="mb-2"><a class="text-decoration-none" href="{% url 'comments'%}">View Supervisor Report</a> </li>
+            <li class="mb-2"><a class=" text-decoration-none "  href="{% url 'add_comment'%}">Add Final Decision</a> </li>
+            <li class="mb-2"><a class=" text-decoration-none " href="{% url 'upload_dataset'%}">Upload Dataset</a> </li>
+            <li class="mb-2"><a class=" text-decoration-none " href="{% url 'view_dataset'%}">View DataSet</a> </li>
+            <li class="mb-2"><a class=" text-decoration-none " href="{% url 'analysis_variable'%}">KPI Analysis Variable</a> </li>
+            <li class="mb-2"><a class=" text-decoration-none text-warning fw-bolder " href="{% url 'final'%}">The Final Decision</a> </li>
+            </ul>
           </div>
         </div>
         {%endif%}

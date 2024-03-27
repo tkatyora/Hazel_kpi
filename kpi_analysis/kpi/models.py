@@ -94,6 +94,15 @@ class CommentReports(models.Model):
             except ValueError:
                 url = ''
             return url
+        
+        @property
+        def FileUrl(self):
+            try:
+                url = self.fullReportFile.url
+            except:
+                    url = ''
+                    
+            return url
 
        
         def __str__(self):

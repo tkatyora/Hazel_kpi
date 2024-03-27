@@ -1,0 +1,169 @@
+{% include 'style.html' %}
+ {%load static%} 
+ {% load crispy_forms_tags %}
+
+
+<head>
+  {% block title%}
+<title >Econet Wireless KPI |Comments</title>
+{%endblock title%}
+<style>
+
+
+  @media (max-width :  768px) {
+    
+    .login{
+      color: black;
+      font-size: 1.1em;
+      margin-left: 0.5rem !important;
+      margin-right: 0.5rem !important;
+    }
+    .login2{
+     
+      font-size: 0.9em;
+      margin-left: 0.5rem !important;
+      margin-right: 0.5rem !important;
+    }
+      
+    }
+    .form_id #form-id .mobile-text{
+      margin-left: 2rem !important;
+      margin-right: 2rem !important;
+      font-size: 0.9em !important;
+      color: black;
+        
+      }
+      .form_id #form-id .btn-mobile{
+        text-align: left !important;
+      }
+   
+    </style>
+</head>
+<body>  
+
+  {%if user.roles == 'admin'   or user.is_superuser %}
+
+  <div class="album py-5 bg-body-tertiary">
+  
+    <div class="container">
+      <h3 class="text-center mb-3">Supervisor Comments</h3>
+    
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          {% for data in comments %}  
+          {% if data.created_by.roles == 'supervisor'%}
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 ><i class="fas fa-user text-primary"></i><span class="ms-3" >{{data.created_by.username}}   </span></h5>  <hr>
+              <ul class="list-unstyled d-block fw-bold">
+                <li class="mb-3"><span class="" > {{data.body}}  </span> <span class="ms-1" >{{data.last_name.title}} </span> 
+                </li>
+                <br>
+                <li class="mb-3"><span class="" > <a class="nav-link .navs-link fs-6 text-primary fw-bolder"
+                  href="{{data.FileUrl}}">Download full report</a></span> 
+                </li>
+               
+               
+                
+                  <li class="mb-3"> <i class="fas fa-city text-primary"></i><span class="ms-3" >Region [{{data.created_by.city}}]  </span> 
+                  </li>
+              </ul> 
+              <div class="d-flex justify-content-between align-items-center">
+               
+                <div class="btn-group">
+                  <button type="button" class="btn text-secondary btn-sm btn-outline-info">
+                    <a class="text-decoration-none text-secondary" href="{% url 'delete_user' data.id%}">Delete user</a> </button>
+                  </button>
+                  <button type="button" class="btn text-secondary btn-sm btn-outline-info">
+                    <a class="text-decoration-none text-secondary" href="{% url 'dashboard'%}">Back
+                  </a>
+                  </button>
+  
+                </div>
+                <small class="text-body-secondary">{{data.roles}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endif%}
+        {%endfor%}
+      </div>
+    
+    </div>
+  </div>
+  {%endif%}
+  {%if  user.is_supervisor or user.is_superuser %}
+  <div class="album py-5 bg-body-tertiary">
+  
+    <div class="container">
+      <h3 class="text-center mb-3">Analysis Team</h3>
+    
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          {% for data in users %}  
+             
+         
+  
+             {% if not data.is_superuser and data.is_technition %}
+             {% if user.city == data.city %}
+             
+        <div class="col">
+          <div class="card shadow-sm">
+            
+            <div class="card-body">
+              <h5 ><i class="fas fa-user text-primary"></i><span class="ms-3" >{{data.username}}   </span></h5>  <hr>
+              <ul class="list-unstyled d-block fw-bold">
+                <li class="mb-3"> <i class="fas fa-user text-primary"></i><span class="ms-3" > {{data.first_name.title}}  </span> <span class="ms-1" >{{data.last_name.title}} </span> 
+                </li>
+                <li class="mb-3"> <i class="fas fa-phone text-primary"></i><span class="ms-3" >   {{data.phoneNumber}}  </span> 
+                </li>
+                <li class="mb-3"> <i class="fas fa-id-card text-primary"></i><span class="ms-3" >Econet Number  <span class="ms-2 text-warning"> {{data.econetNumber}}</span>  </span> 
+                </li>
+                <li class="mb-3">
+                <i class=" fas fa-envelope text-primary"></i><span class="ms-3" > 
+                  {% if data.email == ''%}
+                  User has no email
+                  {%else%}
+                    {{data.email}}  
+                  {%endif%}
+                  </span> </li>
+                  <li class="mb-3"> <i class="fas fa-city text-primary"></i><span class="ms-3" >  {{data.city}}  </span> 
+                  </li>
+                  <li class="mb-3"> <i class="fas text-primary fa-sign-in-alt"></i>
+                    <span class="ms-3" >  {{data.last_login}}  </span> 
+                  </li>
+                 
+  
+               
+              </ul> 
+              <div class="d-flex justify-content-between align-items-center">
+               
+                <div class="btn-group">
+                  <button type="button" class="btn text-secondary btn-sm btn-outline-info">
+                    <a class="text-decoration-none text-secondary" href="{% url 'delete_user' data.id%}">Delete user</a> </button>
+                  </button>
+                  <button type="button" class="btn text-secondary btn-sm btn-outline-info">
+                    <a class="text-decoration-none text-secondary" href="{% url 'dashboard'%}">Back
+                  </a>
+                  </button>
+  
+                </div>
+                <small class="text-body-secondary">{{data.roles}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endif%}
+        {%endif%}
+        {%endfor%}
+      </div>
+    
+    </div>
+  </div>
+  {%endif%}
+  </main>
+</body>
+  
+
+ 
+
+

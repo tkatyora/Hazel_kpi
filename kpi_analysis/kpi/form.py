@@ -82,6 +82,8 @@ class CreateUserForm(UserCreationForm):
             user.save()
         return user
 
+
+
 class CommentForm(ModelForm):
     body = forms.CharField(required=True , label='Enter Final Comment /Decison' ,
                                  widget=forms.TextInput(
@@ -104,10 +106,21 @@ class CommentForm(ModelForm):
             }
         )
     ) 
-    Picture =forms.ImageField(label='Select Picture(optinal)', required=False)
+    analysisfile = forms.FileField(label= 'Upload The Graph',required=False, max_length=100,  widget=forms.FileInput(
+                                attrs={
+                                    'class':'form-control'
+                                }
+                            ))
+    fullReportFile = forms.FileField(label= 'Full Report',required=False, max_length=100,  widget=forms.FileInput(
+                                attrs={
+                                    'class':'form-control'
+                                }
+                            ))
+    
+
     class Meta:
         model =CommentReports
-        fields = ['body','types','Picture'] 
+        fields = ['body','types','analysisfile','fullReportFile'] 
 
 
 class uploadDataForm(ModelForm):

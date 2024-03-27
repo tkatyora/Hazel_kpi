@@ -15,4 +15,5 @@ urlpatterns = [
     path('upload-dataset',views.uploadDataSet, name = 'upload_dataset'),
     path('view-dataset',views.viewDataSet, name = 'view_dataset'),
     path('comments',views.Comments, name = 'comments'),
+    path('Final-Decision',views.Final, name = 'final'),
 ]

@@ -5,7 +5,7 @@
 
 <head>
   {% block title%}
-<title >Econet Wireless KPI |Final Decision</title>
+<title >Econet Wireless KPI |add Varible</title>
 {%endblock title%}
 <style>
 
@@ -40,16 +40,7 @@
     </style>
 </head>
 <body>  
-  <nav
-  class="navbar navbar-expand-lg navbar-light shadow bg-light rounded fixed-top "
->
-  <div class="container-xl">
-    <a href="{% url 'dashboard'%}" class="navbar-brand fs-5 ms-4 ">
-      Econet<span class="text-info fs-4 h2">Wireless</span>KPI(HUB)</a
-     >
-  </div>
-</nav>
-<br>
+
   
 <main class="form_id container-fluid d-flex align-items-center  mt-5 justify-content-center">     
    
@@ -61,35 +52,46 @@
 <div class="mb-3  form"> 
    <div class="error-class">
          <br>
-         <h4 class="login mx-sm-5 text-dark text-center ">Final Decision</h4>
+         <h4 class="login mx-sm-5 text-dark text-center ">Change Paasword </h4>
 
+       {% for message in messages %}
+         {% if message.tags == 'warning'%}
+           <div class="  mx-sm-3 ">
+             <p class=" text-danger text-center">{{message}}</p>
+             {%else%}
+             <p class="text-center text-success">{{message}}</p>
+           </div>
+         {%endif%} 
+         {%endfor%}
    </div>
-   <br> 
-
-   
-   
+   <br>
    <div class=" text-start mobile-disp mobile-text  mx-sm-5">
     
     <p class="lead mt-3">
-      <strong>Effective from {{finals.created_on.date}}</strong> 
+      <strong>{{form.variable|as_crispy_field}}</strong> 
     </p>
+    {% if user.is_admin%}
+    <br>
+    <h6>Add New KPI Variables</h6>
     <p class="lead mt-3">
-      <strong>  KPI Manager {{finals.created_by.first_name}} {{finals.created_by.last_name}}'s Final Decison</strong> 
-      <br>
-      <span class="text-secondary">
-        <strong>"{{finals.body}}"</strong> 
-      </span> 
+      <strong>{{form2.name|as_crispy_field}}</strong> 
     </p>
-    <br>  
-    <p class="lead mt-3">
-    <a class="nav-link .navs-link fs-6 text-primary fw-bolder"
-        href="{{data.FileUrl}}">Download full report</a>
-    </p>
-     
+    {%endif%}
    </div>
-
    
-  
+ 
+    <br>  
+   <div class=" text-center align-items-center justify-content-center d-flex">
+    {% if user.is_admin%}
+     <button type="submit" class="btn text-center btn-outline-info ms-5 w-50 button ">
+      <i class="text-success fas fa-check"></i> Add
+     </button>
+     {% endif%}
+     <button type="button" class="btn text-center btn-outline-info ms-2 me-5 w-50 button ">
+      <a  class="text-decoration-none " href="{% url 'dashboard' %}"> <i class=" text-danger fas fa-times"></i> Cancel</a>
+     
+    </button>
+   </div>
    <br>  
  </div>
  <h6 class="fst-italic login2  text-center text-warning fw-bold">Econet Wireless Inspired To Change Your World</h6>

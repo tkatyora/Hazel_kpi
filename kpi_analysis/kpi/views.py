@@ -62,6 +62,7 @@ def addNewUser(request):
             email = user_form.cleaned_data.get('email',None)
             name = user_form.cleaned_data['first_name']
             last_name = user_form.cleaned_data['last_name']
+            cities = user_form.cleaned_data.get('city')
             username = f'{name.lower()}.{last_name.lower()}'
             roles = user_form.cleaned_data['roles']
             econum =  user_form.cleaned_data['econetNumber']
@@ -83,6 +84,7 @@ def addNewUser(request):
             print(username)
             user.username = username
             user.set_password(password)
+            #user.city.set(cities) 
             user.save()
             msg = f'''
                 Weclome  {name.title()} {last_name.title() }  to Econet KPI Anaysis Systsem
@@ -100,7 +102,7 @@ def addNewUser(request):
                          to=[email]
                          )
     
-            EmailThread(email).start()
+            #EmailThread(email).start()
             msg2 = f'{name} {last_name} is added Succefully with username {username}'
             messages.success(request, msg2)
             print('email sent ')

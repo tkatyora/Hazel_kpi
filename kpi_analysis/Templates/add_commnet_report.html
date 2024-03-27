@@ -5,7 +5,7 @@
 
 <head>
   {% block title%}
-<title >Econet Wireless KPI |add user</title>
+<title >Econet Wireless KPI |add Report/Comments</title>
 {%endblock title%}
 <style>
 
@@ -64,13 +64,15 @@
     <p class="lead mt-3">
       <strong>{{form.body|as_crispy_field}}</strong> 
     </p>
-      <p class="lead mt-3">
-      <strong>Optional</strong> 
-    </p>
+   {% if user.is_technition%}
     <p class="lead mt-3">
-      <strong>{{form.Picture|as_crispy_field}}</strong> 
+      <strong>{{form.analysisfile|as_crispy_field}}</strong> 
     </p>
-    
+    {%endif%}
+    <p class="lead mt-3">
+      <strong>{{form.fullReportFile|as_crispy_field}}</strong> 
+    </p>
+   
      
    </div>
   

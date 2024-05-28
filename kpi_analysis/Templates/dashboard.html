@@ -36,12 +36,12 @@
             <ul class="list-unstyled d-block">
               <li class="mb-2"><a class=" text-decoration-none" href="{% url 'change_passorword'%}">Change Password</a> </li>
             </li>
-            {%if user.roles == 'admin'   or user.is_superuser %}
+            {%if user.roles == 'admin'   %}
             <li class="mb-2"><a class=" text-decoration-none " href="{% url 'add_user'%}">Add New Staff</a> </li>
-            <li class="mb-2"><a class=" text-decoration-none " href="{% url 'analysis_variable'%}">View KPI Analysis Variable</a> </li>
+            <li class="mb-2"><a class=" text-decoration-none " href="{% url 'analysis_variable'%}">Add Analysis Variable</a> </li>
 
             {%endif%}
-            {% if user.roles == 'admin'   or user.is_superuser or user.is_supervisor  %}
+            {% if user.roles == 'admin'   or user.roles == 'team-leader' %}
             <li class="mb-2"><a class=" text-decoration-none" href="{% url 'view_user'%}">View Analysis Team</a> </li>
              {%endif%}
             <li class="mb-2"><a class=" text-decoration-none" href="{% url 'logout' %}">Log Out</a> </li>
@@ -57,17 +57,19 @@
           </div>
         </div>
       </div>
-         {%if   user.is_supervisor or  user.roles == 'technition'%}
+         {%if  user.roles == 'team-leader' or  user.roles == 'technition'%}
       <div class="col">
         <div class="card shadow-sm">
           
           <div class="card-body">
             <h3 >KPI Reports</h3>  <hr>
             <ul class="list-unstyled d-block">
+              {%if user.roles == 'technition'   %}
               <li class="mb-2"><a class=" text-decoration-none "  href="{% url 'add_comment'%}">Add Comment</a> </li>
             
               <li class="mb-2"><a class=" text-decoration-none text-warning fw-bolder " href="{% url 'final'%}">Managers Final Decision</a> </li>
-              {%if  user.is_supervisor or user.is_superuser %}
+              {%endif%}
+              {%if user.roles == 'team-leader'   %}
               <li class="mb-2"><a class=" text-decoration-none" href="{% url 'add_comment'%}">Create Final Report</a> </li>
 
               <li class="mb-2"><a class=" text-decoration-none text-warning fw-bolder " href="{% url 'final'%}">Managers Final Decision</a> </li>
@@ -85,7 +87,7 @@
       {%endif%}
         
   
-      {%if  user.is_supervisor or user.roles == 'technition'%}    
+      {%if   user.roles == 'team-leader' or user.roles == 'technition'%}    
       <div class="col">
         <div class="card shadow-sm">
           <div class="card-body">
@@ -95,7 +97,8 @@
               <hr>
             <ul class="list-unstyled d-block">
               
-              {%if user.is_supervisor or user.is_superuser%}  
+              {%if user.roles == 'team-leader' %}   
+              <li class="mb-2"><a class="text-decoration-none" href="{% url 'comments'%}">View Technician Comments</a> </li>
               <li class="mb-2"><a class=" text-decoration-none " href="{% url 'view_dataset'%}">View DataSet</a> </li>
               <li class="mb-2"><a class=" text-decoration-none " href="{% url 'analysis_variable'%}">View KPI Analysis Variable</a> </li>
            

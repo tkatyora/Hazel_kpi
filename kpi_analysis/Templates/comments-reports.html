@@ -39,7 +39,15 @@
    
     </style>
 </head>
-<body>  
+<body class="bg-body-tertiary">  
+  <div class="text-end">
+    <button type="button" class="btn text-secondary fixed-top   btn-sm btn-info"
+    style="width: 80px;">
+      <a class="text-decoration-none text-secondary" href="{% url 'dashboard'%}">Back
+    </a>
+    </button>
+  </div>
+ 
 
   {%if user.roles == 'admin'   or user.is_superuser %}
 
@@ -50,7 +58,7 @@
     
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           {% for data in comments %}  
-          {% if data.created_by.roles == 'supervisor'%}
+          {% if data.created_by.roles == 'team-leader'%}
         <div class="col">
           <div class="card shadow-sm">
             <div class="card-body">
@@ -92,66 +100,53 @@
     </div>
   </div>
   {%endif%}
-  {%if  user.is_supervisor or user.is_superuser %}
-  <div class="album py-5 bg-body-tertiary">
+  {% if user.roles == 'team-leader'%}
+  <div class="album py-5 bg-body-tertiary shadow-lg">
   
-    <div class="container">
-      <h3 class="text-center mb-3">Analysis Team</h3>
+    <div class="container ">
+      <h3 class="text-center mb-3 ">Technicians Comments</h3>
     
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          {% for data in users %}  
-             
-         
+          {% for data in comments %}   
   
-             {% if not data.is_superuser and data.is_technition %}
-             {% if user.city == data.city %}
-             
+          {% if not data.created_by.is_admin and data.created_by.is_technition and not data.created_by.is_supervisor %}
+         
+           {% if user.region ==  'region1'   %}
+            {% if created_by.data.city == 'section_a' or 'section_b'  %}        
         <div class="col">
           <div class="card shadow-sm">
             
             <div class="card-body">
-              <h5 ><i class="fas fa-user text-primary"></i><span class="ms-3" >{{data.username}}   </span></h5>  <hr>
+              <h5 ><i class="fas fa-user text-primary"></i><span class="ms-3" >{{data.created_by.username}}   </span></h5>  <hr>
               <ul class="list-unstyled d-block fw-bold">
-                <li class="mb-3"> <i class="fas fa-user text-primary"></i><span class="ms-3" > {{data.first_name.title}}  </span> <span class="ms-1" >{{data.last_name.title}} </span> 
+    
+                <li class="mb-3"> 
+                    {{data.body}} 
                 </li>
-                <li class="mb-3"> <i class="fas fa-phone text-primary"></i><span class="ms-3" >   {{data.phoneNumber}}  </span> 
-                </li>
-                <li class="mb-3"> <i class="fas fa-id-card text-primary"></i><span class="ms-3" >Econet Number  <span class="ms-2 text-warning"> {{data.econetNumber}}</span>  </span> 
-                </li>
-                <li class="mb-3">
-                <i class=" fas fa-envelope text-primary"></i><span class="ms-3" > 
-                  {% if data.email == ''%}
-                  User has no email
-                  {%else%}
-                    {{data.email}}  
-                  {%endif%}
-                  </span> </li>
-                  <li class="mb-3"> <i class="fas fa-city text-primary"></i><span class="ms-3" >  {{data.city}}  </span> 
+                <li class="mb-3"> 
+               
+              </li>
+              
+             
+                  <li class="mb-3"> <i class="fas fa-city text-primary"></i><span class="ms-3" > 
+                    {% if data.created_by.city ==  'section_a' %} Midland Part A
+                  {%endif%} 
+                  {% if data.created_by.city ==  'section_b' %} Midland Part B
+                  {%endif%} 
+                    
+                     </span> 
                   </li>
-                  <li class="mb-3"> <i class="fas text-primary fa-sign-in-alt"></i>
-                    <span class="ms-3" >  {{data.last_login}}  </span> 
-                  </li>
-                 
-  
                
               </ul> 
-              <div class="d-flex justify-content-between align-items-center">
-               
-                <div class="btn-group">
-                  <button type="button" class="btn text-secondary btn-sm btn-outline-info">
-                    <a class="text-decoration-none text-secondary" href="{% url 'delete_user' data.id%}">Delete user</a> </button>
-                  </button>
-                  <button type="button" class="btn text-secondary btn-sm btn-outline-info">
-                    <a class="text-decoration-none text-secondary" href="{% url 'dashboard'%}">Back
-                  </a>
-                  </button>
-  
-                </div>
-                <small class="text-body-secondary">{{data.roles}}</small>
+              <div class="d-flex text-end justify-content-between ">
+                <a class="nav-link .navs-link fs-6 text-primary "
+                href="{{data.FileUrl}}">   <i class="fas fa-download"></i> Download and view</a>
+                <small class="text-body-secondary">{{data.created_by.econetNumber}}</small>
               </div>
             </div>
           </div>
         </div>
+        {%endif%}
         {%endif%}
         {%endif%}
         {%endfor%}

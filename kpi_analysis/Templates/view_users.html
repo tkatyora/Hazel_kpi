@@ -11,7 +11,7 @@
 
 <br />
 <br />
-{%if user.roles == 'admin'   or user.is_superuser %}
+{%if user.roles == 'admin'  %}
 
 <div class="album py-5 bg-body-tertiary">
 
@@ -79,11 +79,17 @@
   </div>
 </div>
 {%endif%}
-{%if  user.is_supervisor or user.is_superuser %}
+{%if  user.roles == 'team-leader' %}
 <div class="album py-5 bg-body-tertiary">
 
   <div class="container">
-    <h3 class="text-center mb-3">Analysis Team</h3>
+    <h3 class="text-center mb-3">My Analysis Team</h3>
+    <p>My Region 
+      {% if user.region ==  'region1' %}
+       <strong>Midland and Manicaland</strong> 
+       {%else%}
+       <strong>Harare and Bulawayo</strong> </p>
+      {% endif%}
   
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         {% for data in users %}  
@@ -91,7 +97,9 @@
        
 
            {% if not data.is_superuser and data.is_technition %}
-           {% if user.city == data.city %}
+          
+           {% if user.region ==  'region1'   %}
+            {% if data.city == 'section_a' or 'section_b'  %}
            
       <div class="col">
         <div class="card shadow-sm">
@@ -113,7 +121,11 @@
                   {{data.email}}  
                 {%endif%}
                 </span> </li>
-                <li class="mb-3"> <i class="fas fa-city text-primary"></i><span class="ms-3" >  {{data.city}}  </span> 
+                <li class="mb-3"> <i class="fas fa-city text-primary"></i><span class="ms-3" >    {% if data.city ==  'section_a' %} Midland Part A
+                  {%endif%} 
+                  {% if data.city ==  'section_b' %} Midland Part B
+                  {%endif%} 
+                </span> 
                 </li>
                 <li class="mb-3"> <i class="fas text-primary fa-sign-in-alt"></i>
                   <span class="ms-3" >  {{data.last_login}}  </span> 
@@ -139,6 +151,7 @@
           </div>
         </div>
       </div>
+      {%endif%}
       {%endif%}
       {%endif%}
       {%endfor%}

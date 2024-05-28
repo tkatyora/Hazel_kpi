@@ -2,7 +2,14 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from .models import *
+import pandas as pd
 
+df_analysis = pd.read_excel('CleanedData/CleanedDataset.xlsx')
+section_a_mask = df_analysis['SiteCode'].between('MID0001', 'MID0100')
+section_b_mask = df_analysis['SiteCode'].between('MID0101', 'MID0219')
+
+section_a = df_analysis[section_a_mask]
+section_b = df_analysis[section_b_mask]
 
 
 #MODULES FORMS
@@ -61,13 +68,12 @@ class CreateUserForm(UserCreationForm):
             }
         )
     ) 
-    city_choices = [(city.name, city.name) for city in city.objects.all()]
-    city = forms.MultipleChoiceField(label='Select Analysis City', choices=city_choices, widget=forms.CheckboxSelectMultiple)
-
+    
+    city = forms.ChoiceField(label='Select Analysis Section', choices=User.CITY_CHOICES)
     class Meta:
         model = User
         #fields = '__all__'
-        fields = ['last_name','first_name','phoneNumber','roles','econetNumber','email','city'] 
+        fields = ['last_name','first_name','phoneNumber','roles','econetNumber','email','city','region'] 
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -77,7 +83,7 @@ class CreateUserForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         if self.cleaned_data['password1'] and self.cleaned_data['password2']:
-            user.set_password(self.cleaned_data['password1'])  # Set password only if provided
+            user.set_password(self.cleaned_data['password1'])  
         if commit:
             user.save()
         return user
@@ -92,12 +98,12 @@ class CommentForm(ModelForm):
                                       'class':'form-control input',
                                        'spellcheck':"true",
                                        'type':'text',
-                                       'rows':5,
-                                       'cols':5,
+                                       'rows':2,
+                                       'cols':1,
                                   }
                               )),
     types = forms.ChoiceField(
-        required=True,
+        required=False,
         label='Choose  Decision/ Report/ Final Decison',
         choices=CommentReports.type,
         widget=forms.Select(
@@ -111,16 +117,11 @@ class CommentForm(ModelForm):
                                     'class':'form-control'
                                 }
                             ))
-    fullReportFile = forms.FileField(label= 'Full Report',required=False, max_length=100,  widget=forms.FileInput(
-                                attrs={
-                                    'class':'form-control'
-                                }
-                            ))
     
 
     class Meta:
         model =CommentReports
-        fields = ['body','types','analysisfile','fullReportFile'] 
+        fields = ['body','types','analysisfile'] 
 
 
 class uploadDataForm(ModelForm):
@@ -161,15 +162,38 @@ class uploadDataForm(ModelForm):
     class Meta: 
         model = DataSet
         fields =['file','name','types']
+
+class uploadSiteForm(ModelForm):
+    file = forms.FileField(label= 'Upload Site Name',required=False, max_length=100,  widget=forms.FileInput(
+                                  attrs={
+                                       'class':'form-control'
+                                  }
+                              ),
+                              help_text='Only Excel  Supported')    
+    class Meta: 
+        model = SiteName
+        fields =['file']
     
 
 
 
-class AnayasisKpiForm(ModelForm):
+class AnayasisKpiForm(forms.Form):
+    choice = [('Time','Time'),
+              ]
+    versus = forms.ChoiceField(
+        required=False,
+        label='Aganist',
+        choices=choice,
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control input',
+            }
+        )
+    ) 
     variable_choices = [(variable.name, variable.name) for variable in AnalysisVaribales.objects.all()]
     variable = forms.ChoiceField(
-        required=True,
-        label='Select  Analysis KPI',
+        required=False,
+        label='Variable',
         choices=variable_choices,
         widget=forms.Select(
             attrs={
@@ -178,9 +202,7 @@ class AnayasisKpiForm(ModelForm):
         )
     ) 
     
-    class Meta: 
-        model = DataSet
-        fields =['variable']
+ 
 
 
 
@@ -190,5 +212,66 @@ class AnayasisVariablesForm(ModelForm):
     class Meta: 
         model = AnalysisVaribales
         fields =['name']
+
+
+
+class ServiceForm(forms.Form):
+    traffic = [('high','High'),
+                 ('low','Low')]
+    Region_a = [('Gweru Athlone',' Gweru Athlone'),
+                 ('Milsonia','Milsonia'),
+                 ('Rothbat Building','Rothbat Building'),
+                 ('Kwekwe Polytechnic','Kwekwe Polytechnic'),
+                 ('Gweru CABS','Gweru CABS'),
+                 ('Mambo','Mambo'),
+                 ('Anderson School','Anderson School'),
+                 ('Connemara','Connemara')]
+    Region_b = [('Midlands State University 2','Midlands State University 2'),
+                 ('Gokwe 3','Gokwe 3'),
+                 ('Rothbat Building','Rothbat Building'),
+                 ('Nyama','Nyama'),
+                 ('Shurugwi Town','Shurugwi Town'),
+                 ('Zvishavane Town','Zvishavane Town'),
+                 ('Chiodza USF ','Chiodza USF'),
+                 ('Gangata','Gangata')]
+    service = [('low','Low[0 to 50%]'),
+                 ('high','High [ 51 to 100%]'),
+    ]
+    chart = [('bar','Bar Graph'),
+             ('Table','Table'),
+                 ('pie','Pie Chart'),
+                 ]
+    Traffic =forms.ChoiceField(choices=traffic, 
+                             label='Traffic',
+                            required=False)
+    Service =forms.ChoiceField(choices=service, 
+                            label='Service Rate',
+                            required=False)
+    Charts =forms.ChoiceField(choices=chart, 
+                            label='Data visualization charts',
+                            required=False)
+    region_a = forms.ChoiceField(choices=Region_a, 
+                            label='Select Analysis Area',
+                            required=False)
+    region_b = forms.ChoiceField(choices=Region_b, 
+                            label='Select Analysis Area',
+                            required=False)
+
+    
+
+
+
+
+class SelectForm(forms.Form):
+    choice = [
+              ('ServiceRate','Service Rate'),
+              ('TotalTraffic','Total Traffic')]
+
+    select =forms.ChoiceField(choices=choice, 
+                             label='Select',
+                            required=False)
+
         
+
+
         

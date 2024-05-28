@@ -42,8 +42,12 @@
                   {{data.email}}  
                 {%endif%}
                 </span> </li>
-                <li class="mb-3"> <i class="fas fa-city text-primary"></i><span class="ms-3" >  {{data.city}}  </span> 
+                {% for city in user.city.all %}
+                <li class="mb-3"> <i class="fas fa-city text-primary"></i><span class="ms-3" >   <li>{{ city.name }}</li>  </span> 
                 </li>
+               
+            {% endfor %}
+               
                 <li class="mb-3"> <i class="fas text-primary fa-sign-in-alt"></i>
                   <span class="ms-3" >  {{data.last_login}}  </span> 
                 </li>

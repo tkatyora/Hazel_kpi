@@ -3,7 +3,7 @@ from .models import *
 
 # Register your models here.
 admin.site.register(User)
-admin.site.register(city)
 admin.site.register(DataSet)
 admin.site.register(CommentReports)
 admin.site.register(AnalysisVaribales)
+admin.site.register(SiteName)

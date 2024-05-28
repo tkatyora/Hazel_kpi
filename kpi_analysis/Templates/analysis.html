@@ -10,102 +10,94 @@
 </head>
 
 <body class="">
-
-  <div class="container-xl fixed-top mt-2 text-start">
-    <button type="submit" id="print-btn" class="btn  btn-info  button ">
-      <i class=" fas fa-print"></i> Print Analysis
-     </button>
-  </div>
-  
-  <div class="container-xl fixed-top text-end">
+<header class="shadow navbar-dark bg-dark fixed-top p-1">
+  <div class="container-xl  text-end">
     <a href="{% url 'dashboard'%}" class="navbar-brand fs-6  ">
       Econet<span class="text-info fs-4 fs-6">Wireless</span>KPI(HUB)</a
      >
+     <h5  class="text-white">Customizable KPI Analysis and Visualization.For Effective analysis choose small dates intervals</h5> 
+  
   </div>
+
+
+</header>
+  
+  
   <main class="mt-3 mx-5 fs-5" >
-    <div class=" text-center">
-      <h5  class="">Customizable KPI Analysis and Visualization</h5>   
-      <hr>
+    <div style="height: 100vh; width: 100vw; position: relative;">
+      <img src="{% static '../static/Images/econet2.png'%}" 
+      alt="Background Image" 
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1">
     
-    </div>  
-    <form id='form-id'  method = 'POST'  >
-          {% csrf_token %}                                 
-    <div class="d-flex justify-content-center  fs-5 g-5">                               
-      <div class="col-4">
-        <div class="p-4 border shadow bg-light">  
-          <p class="text-center">For better redability select small intervals of time</p>
-          <div class="form mb-3 mx-sm-3">
-            <p class="lead mt-3">
-              <strong>{{form.variable|as_crispy_field}}</strong> 
-            </p>
-         </div>
-         <div class="mb-4 mx-sm-3 form">
-           <label for="password" class="form-label"> Select Date</label>
-           <input
-             type="text"
-             name="date"
-             class="form-control input"
-             placeholder="yyyy-mm-dd"
+      <hr> 
+    <br> <br>
+    <div class="d-flex justify-content-center mt-3">
+      <form id='form-id' method='POST' class="">
+
+        {% csrf_token %}
+        <div class="d-flex justify-content-center fs-5 g-5">
+          <div class="col-7">
+            <div class="p-4 border shadow bg-dark text-white">
+              <p>Plot Aganist Time</p>
+              <div class="form mb-3 mx-sm-3">
+                {% if user.city == 'section_a'%}
+                <p class="lead mt-3">
+                  <strong>{{ form2.region_a|as_crispy_field }}</strong>
+                </p>
+                {%endif%}
+                {% if user.city == 'section_b'%}
+                <p class="lead mt-3">
+                  <strong>{{ form2.region_b|as_crispy_field }}</strong>
+                </p>
+                {%endif%}
+              </div>
+              <div class="">
+                <div class="form mb-3 mx-sm-3">
+                  <p class="lead mt-3">
+                    <strong>{{ form.variable|as_crispy_field }}</strong>
+                  </p>
+                </div>
+                
+              </div>
+              <div class="d-flex">
+                <div class="mb-4 mx-sm-3 form">
+                  <label for="startdate" class="form-label">From</label>
+                  <input
+                    type="text"
+                    name="startdate"
+                    class="form-control input"
+                    placeholder="yyyy-mm-dd"
+                  />
+                </div>
+                <div class="mb-3 mx-sm-3 form">
+                  <label for="enddate" class="form-label">To</label>
+                  <input
+                    type="text"
+                    name="enddate"
+                    class="form-control input"
+                    placeholder="yyyy-mm-dd"
+                  />
+                </div>
+              </div>
+              <br>
+              <div class="text-center">
+                <button class="w-25 mb-5 btn btn-sm bg-info">
+                  <a class="nav-link p-0 text-muted" href="{% url 'dashboard' %}">Back</a>
+                </button>
+                <button type="submit" class="w-25 mb-5 text-black btn btn-sm bg-success">
+                  Run
+                </button>
+              </div>
              
-           /> 
-          
-         </div> 
-         <div class="mb-3 mx-sm-3 form">
-          <label for="password" class="form-label"> Select start Time</label>
-          <input
-            type="text"
-            name="starttime"
-            class="form-control input"
-            placeholder="hh:mm:ss"
-            
-          /> 
-         
-         </div> 
-         <div class="mb-3 mx-sm-3 form">
-          <label for="password" class="form-label"> Select End Time</label>
-          <input
-            type="text"
-            name="endtime"
-            class="form-control input"
-            placeholder="hh:mm:ss"
-          /> 
-         
-         </div> 
-         <br>  
-         <div class="text-center">
-          <button class="w-25  mb-5 btn btn-sm bg-info">
-            <a class="nav-link p-0 text-muted" href="{% url 'dashboard'%}">
-            Back  </a>
-          </button> 
-          <button type="submit" class="w-25 mb-5 text-black btn btn-sm bg-success">
-           Submit
-          </button> 
-         </div>                             
-      </div>  
-      </div>       
-                                         
-     <div>
-            </div> 
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
-  
-  </form> 
-  <br> <br> <br>
-  
-  <div class="mb-3 ">
-    <p class="text-center fs-6">Anaysis at  <strong>{{city}}</strong>  using  <strong> {{variable}}</strong>  as KPI Variable  Recorded at <strong>{{date}}</strong>  from  <strong>{{starttime}}</strong>   to <strong>{{endtime}}</strong> </p>
-      <img src="{% static '../static/Images/analysis/ack.png'%} " class=" bg-danger d-block "
-      style="height: 490px;"  width="1000px">     
-  </div>
+    
+ 
 
-
-<script>
-console.log('print')
-  document.getElementById('print-btn').addEventListener('click', function() {
-
-  window.print(); // Trigger the print dialog
-});
-
-</script>
+</div>
   </main>
 
 

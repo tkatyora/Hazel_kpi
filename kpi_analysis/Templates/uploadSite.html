@@ -5,7 +5,7 @@
 
 <head>
   {% block title%}
-<title >Econet Wireless KPI |add Report/Comments</title>
+<title >Econet Wireless KPI |upload</title>
 {%endblock title%}
 <style>
 
@@ -36,52 +36,50 @@
       .form_id #form-id .btn-mobile{
         text-align: left !important;
       }
-      .bg-gradient {
    
-   background-color:#0024;
-  }
     </style>
 </head>
-<body class="bg-gradient">  
+<body>  
 
   
 <main class="form_id container-fluid d-flex align-items-center  mt-5 justify-content-center">     
    
- <form id='form-id' class="shadow-lg  bg-white mobile-form mb-5 "
-  method = 'POST'  style="width: 35%;">
+ <form id='form-id' class="shadow-lg  mobile-form mb-5"
+  method = 'POST'  style="width: 35%;" enctype="multipart/form-data">
  {% csrf_token %}
 
  
 <div class="mb-3  form"> 
    <div class="error-class">
          <br>
-         <h4 class="login mx-sm-5 text-dark text-center ">Add Comment Or Decision</h4>
+         <h4 class="login mx-sm-5 text-dark text-center ">Upload Site Name</h4>
 
+       {% for message in messages %}
+         {% if message.tags == 'warning'%}
+           <div class="  mx-sm-3 ">
+             <p class=" text-danger text-center">{{message}}</p>
+             {%else%}
+             <p class="text-center text-success">{{message}}</p>
+           </div>
+         {%endif%} 
+         {%endfor%}
    </div>
    <br>
    <div class=" text-start mobile-disp mobile-text  mx-sm-5">
     
+  
     <p class="lead mt-3">
-      <strong>{{form.types|as_crispy_field}}</strong> 
+      <strong>{{form.file|as_crispy_field}}</strong> 
     </p>
-    <p class="lead mt-3">
-      <strong>{{form.body|as_crispy_field}}</strong> 
-    </p>
-   {% if user.is_technition%}
-    <p class="lead mt-3">
-      <strong>{{form.analysisfile|as_crispy_field}}</strong> 
-    </p>
-    {%endif%}
   
      
    </div>
   
-    
- 
+  
     <br>  
    <div class=" text-center align-items-center justify-content-center d-flex">
      <button type="submit" class="btn text-center btn-outline-info ms-5 w-50 button ">
-      <i class="text-success fas fa-check"></i> Save
+      <i class="text-success fas fa-check"></i> Add
      </button>
      <button type="button" class="btn text-center btn-outline-info ms-2 me-5 w-50 button ">
       <a  class="text-decoration-none " href="{% url 'dashboard' %}"> <i class=" text-danger fas fa-times"></i> Cancel</a>

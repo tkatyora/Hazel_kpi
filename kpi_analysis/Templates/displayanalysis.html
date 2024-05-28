@@ -1,0 +1,57 @@
+{% include 'style.html' %}
+
+ {%load static%}
+ {% load crispy_forms_tags %}
+<head>
+  
+{% block title%}
+    <title> Econet KPI|Customazible</title>
+{%endblock title%}
+</head>
+
+<body class="">
+
+  <div class="container-xl fixed-top mt-2 text-start">
+    <button type="submit" id="print-btn" class="btn  btn-info  button ">
+      <i class=" fas fa-print"></i> Print Analysis
+     </button>
+  </div>
+  
+  <div class="container-xl fixed-top text-end">
+    <a href="{% url 'dashboard'%}" class="navbar-brand fs-6  ">
+      Econet<span class="text-info fs-4 fs-6">Wireless</span>KPI(HUB)</a
+     >
+  </div>
+  <main class=" mx-5 fs-5" >
+  <div class="mb-3 mt-2 ">
+      <img src="{% static '../static/Images/customanalysis.png'%} " class=" bg-danger d-block "
+      style="height:100%;"  width="100%">     
+  </div>
+  <h5>Scatter Plot
+    
+    <div class="mb-3 mt-2 ">
+      <img src="{% static '../static/Images/scattercustomanalysis.png'%} " class=" bg-danger d-block "
+      style="height:100%;"  width="100%">     
+  </div>
+  </h5>
+  <div class="container-xl fixed-bottom mt-2 text-end">
+    <button type="submit" id="print-btn" class="btn  btn-info  button ">
+      <a href="{% url 'dashboard'%}" class="navbar-brand fs-6  ">
+        Back</a
+       >
+     </button>
+  </div>
+
+<script>
+console.log('print')
+  document.getElementById('print-btn').addEventListener('click', function() {
+
+  window.print(); 
+});
+
+</script>
+  </main>
+
+
+</body>
+

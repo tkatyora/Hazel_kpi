@@ -36,15 +36,17 @@
       .form_id #form-id .btn-mobile{
         text-align: left !important;
       }
+      .bg-background{
+        background-color: whitesmoke;
+      }
    
     </style>
 </head>
-<body>  
+<body class="bg-background">  
 
   
-<main class="form_id container-fluid d-flex align-items-center  mt-5 justify-content-center">     
-   
- <form id='form-id' class="shadow-lg  mobile-form mb-5" action="{% url 'add_user' %}"
+<main class="form_id container-fluid d-flex align-items-center  mt-5 justify-content-center position-relative">     
+ <form id='form-id' class="shadow-lg  mobile-form mb-5 bg-white" action="{% url 'add_user' %}"
   method = 'POST'  style="width: 35%;">
  {% csrf_token %}
 
@@ -95,11 +97,14 @@
    </div>
    <div class=" text-start d-fle mobile-text mx-sm-5">
   
-       <p class="lead mt-3">
-         <strong>{{form.city|as_crispy_field}}</strong> 
-       </p>
-   
-   </div>
+    <p class="lead mt-3">
+      <strong>{{form.city|as_crispy_field}}</strong> 
+    </p>
+    <p class="lead mt-3">
+     <strong>{{form.region|as_crispy_field}}</strong> 
+   </p>
+    
+</div>
    <div class=" text-start d-fex mobile-text  mx-sm-5">
     
     

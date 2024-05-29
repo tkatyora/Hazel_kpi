@@ -6,7 +6,7 @@
     <!-- the navbar -->
     <header>
       <nav
-        class="navbar navbar-expand-lg navbar-light shadow bg-light rounded fixed-top "
+        class="navbar navbar-expand-lg navbar-dark shadow bg-dark rounded fixed-top "
       >
         <div class="container-xl">
           <a href="{% url 'dashboard'%}" class="navbar-brand fs-5 ms-4 ">
@@ -26,8 +26,13 @@
         staff
         {%else%}
 
-        
-        {{user.roles}} 
+        {% if user.roles == 'technition'%}
+        Technician
+        {%else%}
+        ({{user.roles}})
+         {%endif%}
+
+
         {% endif%}
         ~ {{user.email}} 
            </a>
@@ -51,8 +56,8 @@
           <div class="col-6 col-md-2 mb-3"> 
               <h5  class="text-white">Get In Touch</h5> <hr>
               <ul class="nav flex-column text-secondary">
-              <!-- <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Email :</a></li> -->
-              <li class="nav-item mb-2"><a href="#" class="nav-link p-0  text-secondary "><strong>your email</strong></a></li>
+            
+              <li class="nav-item mb-2"><a href="#" class="nav-link p-0  text-secondary "><strong>hazel@gmail.com</strong></a></li>
              
               </ul>
           </div> 
@@ -60,7 +65,7 @@
               <div class="text-end">
               <h5 class="text-white">Econet</h5> <hr>
               <ul class="nav flex-column text-secondary">
-              <li class="nav-item mb-2">Your Address</li>
+            
                 <li class="nav-item mb-2">Harare</li>
               </ul>
           </div>
@@ -78,7 +83,7 @@
        
 </div> 
 <div class="d-flex flex-column flex-sm-row mx-md-5 center justify-content-between py-4 my-4 border-top">
-  <p> Develped by TnR~Softwares</p>
+
     <p>&copy; <span id="time">2024</span> Company, Inc. All rights reserved.</p>
     <ul class="list-unstyled d-flex">
       <li class="ms-3"><a class="link-light text-decoration-none " href="https://twitter.com/home"> <i class="fa-brands facebook fa-twitter"></i> Twitter</a></li>

@@ -36,10 +36,12 @@
       .form_id #form-id .btn-mobile{
         text-align: left !important;
       }
-   
+   .bg{
+    background-color: whitesmoke;
+   }
     </style>
 </head>
-<body class="bg-body-tertiary">  
+<body class="bg">  
   <div class="text-end">
     <button type="button" class="btn text-secondary fixed-top   btn-sm btn-info"
     style="width: 80px;">
@@ -51,10 +53,10 @@
 
   {%if user.roles == 'admin'   or user.is_superuser %}
 
-  <div class="album py-5 bg-body-tertiary">
+  <div class="album py-5">
   
     <div class="container">
-      <h3 class="text-center mb-3">Supervisor Comments</h3>
+      <h3 class="text-center mb-3">Supervisor Comments</h3> <hr>
     
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           {% for data in comments %}  
@@ -73,22 +75,16 @@
                
                
                 
-                  <li class="mb-3"> <i class="fas fa-city text-primary"></i><span class="ms-3" >Region [{{data.created_by.city}}]  </span> 
+                  <li class="mb-3"> 
+                    <i class="fas fa-city text-primary">
+
+                    </i><span class="ms-3" >Region [{{data.created_by.city}}]  </span> 
                   </li>
               </ul> 
-              <div class="d-flex justify-content-between align-items-center">
-               
-                <div class="btn-group">
-                  <button type="button" class="btn text-secondary btn-sm btn-outline-info">
-                    <a class="text-decoration-none text-secondary" href="{% url 'delete_user' data.id%}">Delete user</a> </button>
-                  </button>
-                  <button type="button" class="btn text-secondary btn-sm btn-outline-info">
-                    <a class="text-decoration-none text-secondary" href="{% url 'dashboard'%}">Back
-                  </a>
-                  </button>
-  
-                </div>
-                <small class="text-body-secondary">{{data.roles}}</small>
+                <div class="d-flex text-end justify-content-between ">
+                <a class="nav-link .navs-link fs-6 text-primary "
+                href="{{data.FileUrl}}">   <i class="fas fa-download"></i> Download and view</a>
+                <small class="text-body-secondary">{{data.created_by.econetNumber}}</small>
               </div>
             </div>
           </div>

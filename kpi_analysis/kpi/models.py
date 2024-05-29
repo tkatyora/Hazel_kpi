@@ -80,13 +80,21 @@ class CommentReports(models.Model):
             
           
             ]
+        Problem = [
+            ('No-Power', 'No Power'),
+            ('No-Solar', 'No Solar'),
+             ('Functions', 'Events Going On'),
+            ('Public-Holiday', 'Public Holidays'),
+            
+          
+            ]
       
         body= models.TextField(null=True,blank=True)
         types = models.CharField(max_length=100,null=True,default='Not Selected' ,choices=type , blank= False)
         analysisfile = models.FileField(upload_to='', max_length=255,null=True)
         created_by = models.ForeignKey(User,  on_delete=models.CASCADE ,null=True,blank=True)
         created_on = models.DateTimeField( auto_now=False, auto_now_add=True ,null=True)
-        
+        problem = models.CharField(max_length=100,null=True,default='Not Selected' ,choices=Problem , blank= False)
         
        
         @property

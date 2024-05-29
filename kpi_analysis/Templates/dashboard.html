@@ -11,8 +11,20 @@
 
 <br />
 <br />
+<main class="position-relative " >
 
-<div class="album py-5 bg-body-tertiary">
+  <img
+ 
+  src="{% static '../static/Images/Econet-eSim.jpg'%}"
+   class="img-fluid d-block fade-in2 w-100"
+   style="height: 620px; margin-left: 0; position: absolute; z-index: -1"
+   alt="For Projects Guides"
+  
+ />
+
+ <br> 
+
+<div class="album py-5 ">
   <div class="container">
     {% for message in messages %}
     {% if message.tags == 'success'%}
@@ -52,7 +64,14 @@
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
               </div>
-              <small class="text-body-secondary"><span class="text-primary">KPI</span> ({{user.roles}})</small>
+              <small class="text-body-secondary"><span class="text-primary">KPI</span>
+                {% if user.roles == 'technition'%}
+               (Technician)
+               {%else%}
+               ({{user.roles}})
+                {%endif%}
+              
+              </small>
             </div>
           </div>
         </div>
@@ -99,15 +118,14 @@
               
               {%if user.roles == 'team-leader' %}   
               <li class="mb-2"><a class="text-decoration-none" href="{% url 'comments'%}">View Technician Comments</a> </li>
-              <li class="mb-2"><a class=" text-decoration-none " href="{% url 'view_dataset'%}">View DataSet</a> </li>
               <li class="mb-2"><a class=" text-decoration-none " href="{% url 'analysis_variable'%}">View KPI Analysis Variable</a> </li>
            
               {%endif%} 
               {%if user.roles == 'technition' %}   
               <li class="mb-2"><a class=" text-decoration-none " href="{% url 'analysis'%}">Custom Analysis</a> </li>
             </li>  
-            <li class="mb-2"><a class=" text-decoration-none " href="{% url 'wholeanalysis'%}">Graphs and Charts</a> </li>
-            <li class="mb-2"><a class=" text-decoration-none " href="{% url 'analysis'%}"> Analysis</a> </li>
+            <li class="mb-2"><a class=" text-decoration-none " href="{% url 'wholeanalysis'%}">My Region Graphs and Charts</a> </li>
+            <li class="mb-2"><a class=" text-decoration-none " href="{% url 'analysis_2'%}"> My Region Analysis</a> </li>
          
            </ul>
           {%endif%}
@@ -132,8 +150,10 @@
             <li class="mb-2"><a class="text-decoration-none" href="{% url 'comments'%}">View Supervisor Report</a> </li>
             <li class="mb-2"><a class=" text-decoration-none "  href="{% url 'add_comment'%}">Add Final Decision</a> </li>
             <li class="mb-2"><a class=" text-decoration-none " href="{% url 'upload_dataset'%}">Upload Dataset</a> </li>
+     
             <li class="mb-2"><a class=" text-decoration-none " href="{% url 'upload_sitename'%}">Upload Site Name Data</a> </li>  
-            </ul>
+            <li class="mb-2"><a class=" text-decoration-none " href="{% url 'wholeanalysis'%}">Whole Network</a> </li>  
+          </ul>
           </div>
         </div>
         {%endif%}
@@ -141,6 +161,6 @@
     </div>
   </div>
 </div>
-
-
+<br> <br> <br> <br> <br>
+</main>
  {% endblock content%}

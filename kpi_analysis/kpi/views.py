@@ -17,9 +17,6 @@ plt.ioff()
 
 # VARIABLES
 users = User.objects.all()
-# latest_dataset = DataSet.objects.latest('created_on')  
-# datasets = DataSet.objects.exclude(pk=latest_dataset.pk).order_by('-created_on')
-#site_name =  SiteName.objects.latest('created_on')  
 df_analysis = pd.read_excel('CleanedData/JupyterCleanedDataset.xlsx')
 section_a_mask = df_analysis['SiteCode'].between('MID0001', 'MID0100')
 section_b_mask = df_analysis['SiteCode'].between('MID0101', 'MID0219')
@@ -27,8 +24,7 @@ section_b_mask = df_analysis['SiteCode'].between('MID0101', 'MID0219')
 section_a = df_analysis[section_a_mask]
 section_b = df_analysis[section_b_mask]
 
-# current = DataSet.objects.latest('created_on') 
-# anaysis_dataset = DataSet.objects.last()
+
 comments = CommentReports.objects.all()
 final = CommentReports.objects.filter(types='finaldecision').order_by('-created_on').first()
 
@@ -51,7 +47,7 @@ def signIn(request):
             return redirect('dashboard') 
         else:
             print('user is  none')
-            messages.warning(request, 'Wrong Credentials. Try Again')
+            messages.warning(request, 'Incorrect Domain Name or Password')
             return redirect('sign_in')
                       
     return render(request, 'sign_in.html' )
@@ -73,8 +69,6 @@ def AnalysisVariable(request):
 
     else:
         print("analysis varibale")
-        site = site_name.file
-        print(site)
         add_varible_form = AnayasisVariablesForm()
 
     content ={}
@@ -212,55 +206,64 @@ def addNewUser(request):
         
 
 
-#-----------------------------------------------OBJECTIVE 2  KPI REPORTS-----------------------------------------------
-#    2. To develop a system  that allows users to generate  KPI reports.
-
-
-
 #--- OBJECTIVE 4 CUSTOMIZABLE ANALYTICS AND VISUALIZATION ----------------------------------------
 #     4. To develop a system that provide customizable analytics and visualization features on  KPI trends.
 @login_required(login_url='sign_in')
 def WholeAnalysis(request):
     print(request.method)
     form2 = SelectForm()
-    selection = 'TotalTraffic'
     if request.method == 'POST':  
         form_comment =CommentForm(request.POST)
-        print('validating the comment form')
         form = SelectForm(request.POST)
         if form.is_valid():
             selection = form.cleaned_data.get('select')
-            if form_comment.is_valid():
-                bodys =  request.POST.get('comment', '')
-                print(bodys)
-                fm = form_comment.save(commit=False)
-                fm.created_by = request.user
-                fm.types = 'comment'
-                fm.body = bodys
-                fm.save()
-                print('form is saved')
-                print('form valid')
-                mgs = f'''
-                    You have succefully Added a {fm.types}'''
-                messages.success(request, mgs)
-            else:
-                print(f'form not valid not valid,{form_comment.errors}')
-                messages.warning(request, form_comment.errors)
+            selected_category = request.POST.get('category',None)
+            if selected_category == 'Yes':
+                print(selected_category)
+                print('validating the comment form')
+                if form_comment.is_valid():
+                    bodys =  request.POST.get('comment', '')
+                    print(bodys)
+                    fm = form_comment.save(commit=False)
+                    fm.created_by = request.user
+                    fm.types = 'comment'
+                    fm.body = bodys
+                    fm.save()
+                    print('form is saved')
+                    print('form valid')
+                    mgs = f'''
+                        You have succefully Added a {fm.types}'''
+                    messages.success(request, mgs)
+                else:
+                    print(f'form not valid not valid,{form_comment.errors}')
+                    messages.warning(request, form_comment.errors)
     
-            
-        df_grouped = df_analysis.groupby(df_analysis['End Time'])[selection].mean()
-        print(df_analysis.shape)
+            elif selected_category == 'No' or None:
+                print(selected_category,'NO comment added')
+        if request.user.city == 'section_a':
+            df_grouped = section_a.groupby(df_analysis['End Time'])[selection].mean()
+            a = 'Midlands Part A'
+        elif request.user.city == 'section_b':
+            df_grouped = section_b.groupby(df_analysis['End Time'])[selection].mean()
+            a = 'Midlands Part B'
+        print(selected_category)  
+        print(request.user.city)     
+        print(df_analysis.shape,'df analysis')
+        print(df_grouped.shape,'df grouped')
+        print(a)
         print(selection)
+        
         time_interval = df_grouped.index.to_numpy()  
         average_service_rate = df_grouped.to_numpy()  
         plt.figure(figsize=(10, 5))  
         plt.plot(time_interval, average_service_rate)
         plt.xlabel('Time Interval')
         plt.ylabel(f'Average {selection}')
-        plt.title(f'Average {selection} by Time Interval')
+        plt.title(f'Average {selection} by Time Interval for {a}')
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig('static/Images/wholeanalysis.png')
+        print('saving the imagie to static/Images/wholeanalysi.png')
+        plt.savefig('static/Images/wholeanalysi.png')
         plt.close()
         
     else:
@@ -293,19 +296,20 @@ def Analysis(request):
             print(request.user)
             if request.user.city == 'section_a':
                 Sitename = form2.cleaned_data.get('region_a')
+                a = 'section a'
               
                 print('in section a')
             elif request.user.city == 'section_b':
                 Sitename = form2.cleaned_data.get('region_b')
-                
-                print('in section b')
+                a = 'section b'
             else:
                 Sitename = form2.cleaned_data.get('region_a')
                 print('else')
+                a = 'in else'
             
             if form.is_valid():
                 variables = form.cleaned_data.get('variable')
-            #df_name = df_analysis
+    
            
             start_time = request.POST.get('enddate', None)
             end_time = request.POST.get('startdate', None)
@@ -313,47 +317,34 @@ def Analysis(request):
             print(end_time)
             print(Sitename)
             
-            df_name = df_analysis[df_analysis['SiteName'] == 'Milsonia']
-            mask = (df_name['Begin Time'] >= '2024-02-01') & (df_name['End Time'] <=  '2024-02-01')
+            df_name = df_analysis[df_analysis['SiteName'] == Sitename]
+            mask = (df_name['Begin Time'] >= start_time) & (df_name['End Time'] <=  end_time)
             filtered_df = df_name .loc[mask]
             print('shape',df_name.shape)
             filtered_df.set_index('Begin Time', inplace=True)
 
-            # Plot ServiceRate
+            print(variables)
             plt.figure(figsize=(12, 5))
-            plt.plot(filtered_df.index, filtered_df['ServiceRate'])
+            plt.plot(filtered_df.index, filtered_df[variables])
             plt.xlabel('Time')
-            plt.ylabel('Service Rate')
-            plt.title('Service Rate Over Selected Time Range')
+            plt.ylabel(f'{variables}')
+            plt.title(f'{variables} Over Selected Time Range for {Sitename}')
             plt.xticks(rotation=0)
             plt.grid(True)
-            plt.show()
             print('0')
-            
-            # mask = (df_name['Begin Time'] >= '2024-02-01') & (df_name['End Time'] <= '2024-02-01')
-            # filtered_df = df_name.loc[mask]
-
-            # filtered_df.set_index('Begin Time', inplace=True)
-
-            # plt.figure(figsize=(10, 5))
-            # plt.plot(filtered_df.index, filtered_df['TotalTraffic'])
-            # plt.xlabel('Time')
-            # plt.ylabel('Service Rate')
-            # plt.title(f'{variables} Over Selected Time Range for {Sitename}')
-            # plt.xticks(rotation=0)
-            # plt.grid(True)
             plt.tight_layout()
-            plt.savefig('static/Images/customanalysis.png')
+            plt.savefig('static/Images/custom-analysis.png')
 
             plt.figure(figsize=(10, 5))
             plt.scatter(filtered_df.index, filtered_df[variables])
             plt.xlabel('Time')
-            plt.ylabel('Service Rate')
+            plt.ylabel(f'{variables}')
             plt.title(f'{variables} Over Selected Time Range  for {Sitename}')
             plt.xticks(rotation=0)
             plt.grid(True)
             plt.tight_layout()
-            plt.savefig('static/Images/scattercustomanalysis.png')
+            print('sving')
+            plt.savefig('static/Images/scattercustom-analysis.png')
             plt.close()
 
             return redirect('displayanalysis')
@@ -374,6 +365,66 @@ def Analysis(request):
     }
 
     return render(request, 'analysis.html', content)
+
+
+@login_required(login_url='sign_in')
+def Analysis_2(request):  
+    print(request.user.city)
+    if request.method == 'POST':
+        form = ServiceForm(request.POST)
+        if form.is_valid():
+            print(request.user)
+            
+            start_time = request.POST.get('enddate', None)
+            end_time = request.POST.get('startdate', None)
+            df =  df_analysis[df_analysis['Begin Time'] >= start_time & (df_analysis['End Time'] <=  end_time)]
+            variable = form.cleaned_data.get('Traffic')
+            selection = form.cleaned_data.get('Service')
+            tool = form.cleaned_data.get('Charts')
+            df_selection = df[selection]
+            df_variable = df[variable]
+            if tool == 'bar':
+                #bar graph
+                plt.figure(figsize=(8, 5))  
+                plt.bar(df_variable, df_selection)
+                plt.xlabel(variable)
+                plt.ylabel(selection)
+                title = f'{variable} versus {selection}'
+                plt.title(title)
+                plt.xticks(rotation=45)  
+            elif tool == 'Table':
+                  # Line Graph
+                plt.figure(figsize=(8, 5))
+                plt.plot(df_variable, df_selection)  
+                plt.xlabel(variable)
+                plt.ylabel(selection)
+                title = f'{variable} versus {selection}'
+                plt.title(title)
+                plt.xticks(rotation=45)
+            elif tool == 'pie':
+                # Pie Chart 
+                plt.figure(figsize=(8, 5))
+                plt.pie(df_variable.value_counts(), labels= df_variable.unique(), autopct="%1.1f%%",startangle=90) 
+                plt.axis('equal') 
+                plt.title(f"{selection} Distribution") 
+           
+
+        else:
+            print('form not valid',form.errors)
+   
+    else:
+        form = ServiceForm()
+        Sitename = 'Nyama'
+        
+       
+    content = {
+       
+        'form': form,
+        
+      
+    }
+
+    return render(request, 'analysis-2.html', content)
 
 @login_required(login_url='sign_in')
 def DisplayAnalysis(request):

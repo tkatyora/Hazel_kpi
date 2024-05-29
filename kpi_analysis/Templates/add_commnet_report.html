@@ -64,14 +64,19 @@
     <p class="lead mt-3">
       <strong>{{form.types|as_crispy_field}}</strong> 
     </p>
+    {% if user.is_technition%}
+    <p class="lead mt-3">
+      <strong>{{form.problem|as_crispy_field}}</strong> 
+    </p>
+    {%endif%}
     <p class="lead mt-3">
       <strong>{{form.body|as_crispy_field}}</strong> 
     </p>
-   {% if user.is_technition%}
+  
     <p class="lead mt-3">
       <strong>{{form.analysisfile|as_crispy_field}}</strong> 
     </p>
-    {%endif%}
+   
   
      
    </div>

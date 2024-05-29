@@ -91,6 +91,7 @@ class CreateUserForm(UserCreationForm):
 
 
 class CommentForm(ModelForm):
+
     body = forms.CharField(required=True , label='Enter Final Comment /Decison' ,
                                  widget=forms.TextInput(
                                   attrs={
@@ -112,6 +113,16 @@ class CommentForm(ModelForm):
             }
         )
     ) 
+    problem = forms.ChoiceField(
+        required=False,
+        label='Choose  Reason',
+        choices=CommentReports.Problem,
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control input',
+            }
+        )
+    ) 
     analysisfile = forms.FileField(label= 'Upload The Graph',required=False, max_length=100,  widget=forms.FileInput(
                                 attrs={
                                     'class':'form-control'
@@ -121,7 +132,7 @@ class CommentForm(ModelForm):
 
     class Meta:
         model =CommentReports
-        fields = ['body','types','analysisfile'] 
+        fields = ['body','types','analysisfile','problem'] 
 
 
 class uploadDataForm(ModelForm):

@@ -41,7 +41,7 @@
 </head>
 <body>  
   <nav
-  class="navbar navbar-expand-lg navbar-light shadow bg-light rounded fixed-top "
+  class="navbar navbar-expand-lg navbar-dark shadow bg-dark rounded fixed-top "
 >
   <div class="container-xl">
     <a href="{% url 'dashboard'%}" class="navbar-brand fs-5 ms-4 ">
@@ -51,9 +51,18 @@
 </nav>
 <br>
   
-<main class="form_id container-fluid d-flex align-items-center  mt-5 justify-content-center">     
+<main class="form_id container-fluid d-flex align-items-center  mt-5 justify-content-center position-relative ">     
+
+
+    <img
    
- <form id='form-id' class="shadow-lg  mobile-form mb-5"
+    src="{% static '../static/Images/Econet-eSim.jpg'%}"
+     class="img-fluid d-block fade-in2 w-100"
+     style="height: 620px; margin-left: 0; position: absolute; z-index: -1"
+     alt="For Projects Guides"
+    
+   />  
+ <form id='form-id' class="shadow-lg bg-white mobile-form mb-5"
   method = 'POST'  style="width: 35%;">
  {% csrf_token %}
 
@@ -82,9 +91,13 @@
     </p>
     <br>  
     <p class="lead mt-3">
-    <a class="nav-link .navs-link fs-6 text-primary fw-bolder"
-        href="{{data.FileUrl}}">Download full report</a>
+    
+        <a class="nav-link .navs-link fs-6 text-primary "
+                href="{{data.FileUrl}}">   <i class="fas fa-download"></i> Download full report</a>
     </p>
+    
+    <a class="nav-link .navs-link fs-6 text-primary "
+    href="{% url 'dashboard'%}">   Back </a>
      
    </div>
 

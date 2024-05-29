@@ -377,16 +377,17 @@ def Analysis_2(request):
             
             start_time = request.POST.get('enddate', None)
             end_time = request.POST.get('startdate', None)
+
             df =  df_analysis[df_analysis['Begin Time'] >= start_time & (df_analysis['End Time'] <=  end_time)]
-            variable = form.cleaned_data.get('Traffic')
+            traffic = form.cleaned_data.get('Traffic')
             selection = form.cleaned_data.get('Service')
             tool = form.cleaned_data.get('Charts')
             df_selection = df[selection]
-            df_variable = df[variable]
+            df_variable = df[traffic]
             if tool == 'bar':
                 #bar graph
                 plt.figure(figsize=(8, 5))  
-                plt.bar(df_variable, df_selection)
+                plt.bar(df_variable, df)
                 plt.xlabel(variable)
                 plt.ylabel(selection)
                 title = f'{variable} versus {selection}'

@@ -17,7 +17,21 @@ plt.ioff()
 
 # VARIABLES
 users = User.objects.all()
-df_analysis = pd.read_excel('CleanedData/JupyterCleanedDataset.xlsx')
+from zipfile import BadZipFile
+
+try:
+    df_analysis = pd.read_csv('CleanedData/CleanedDataset.csv')
+    print("File read successfully.")
+    print(df_analysis.head())
+except FileNotFoundError:
+    print("File not found. Please check the file path.")
+except ValueError as ve:
+    print(f"ValueError: {ve}")
+except BadZipFile as bz:
+    print(f"BadZipFile: {bz}")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
+
 section_a_mask = df_analysis['SiteCode'].between('MID0001', 'MID0100')
 section_b_mask = df_analysis['SiteCode'].between('MID0101', 'MID0219')
 
@@ -54,8 +68,6 @@ def signIn(request):
 
 @login_required(login_url='sign_in') 
 def AnalysisVariable(request):
-    df_site = pd.read_excel('CleanedData/siteNameCleaned.xlsx')
-    print(df_site.shape)
     analysis_form = AnayasisKpiForm()
     if request.method == 'POST':
         add_varible_form = AnayasisVariablesForm(request.POST)

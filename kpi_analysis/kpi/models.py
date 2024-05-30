@@ -174,7 +174,7 @@ class DataSet(models.Model):
             df_drop = df_duplicates[existing_columns]
         # df_drop = df_duplicates[['Begin Time','End Time','Granularity','Managed Element','SiteCode','BTS Name','ServiceRate','TotalTraffic']]
         print(df_drop.shape)
-        df_site_name = pd.read_excel('CleanedData/siteNameCleaned.xlsx')
+        df_site_name = pd.read_csv('CleanedData/siteNameCleaned.csv')
         df_merged = df_drop.merge(df_site_name, on='SiteCode', how='left')
         print(df_merged.shape)
         if 'Site Code' in df_merged.columns:
@@ -186,7 +186,7 @@ class DataSet(models.Model):
         print(df_miss.shape)
         df_analysis = df_duplicate
         print(df_analysis.shape)
-        df_analysis.to_excel('CleanedData/CleanedDataset.xlsx' ,index=False)
+        df_analysis.to_csv('CleanedData/CleanedDataset.csv' ,index=False)
         super().save(*args,**kwargs)
 
     def __str__(self):
@@ -213,7 +213,7 @@ class SiteName(models.Model):
 
         df_site_final = df_missing 
 
-        df_site_final.to_excel('CleanedData/siteNameCleaned.xlsx' ,index=False)
+        df_site_final.to_csv('CleanedData/siteNameCleaned.csv' ,index=False)
        
        
 

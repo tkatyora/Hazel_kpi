@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import *
 import pandas as pd
 
-df_analysis = pd.read_excel('CleanedData/CleanedDataset.xlsx')
+df_analysis = pd.read_csv('CleanedData/JupyterCleanedDataset.csv')
 section_a_mask = df_analysis['SiteCode'].between('MID0001', 'MID0100')
 section_b_mask = df_analysis['SiteCode'].between('MID0101', 'MID0219')
 

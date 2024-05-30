@@ -127,10 +127,22 @@ class DataSet(models.Model):
     def save(self,*args , **kwargs):
         data  = self.file
         df = pd.read_excel(data)
-        df['SiteCode'] = df['SITE Name']
-        df['ServiceRate'] = df['306004:TCH in service rate(%)']
-        df['TotalTraffic'] = df['306024:TCH total traffic number(erl)']
-        df['PSData'] = df['900134113:U31_Aggregate PS Data (MB)_900134_1_gv4.bsc-MO']
+        if '306004:TCH in service rate(%)' in df.columns:
+            df['SiteCode'] = df['SITE Name']
+        if '306004:TCH in service rate(%)' in df.columns:
+            df['ServiceRate'] = df['306004:TCH in service rate(%)']
+        else:
+            df['ServiceRate'] = None  
+
+        if '306024:TCH total traffic number(erl)' in df.columns:
+            df['TotalTraffic'] = df['306024:TCH total traffic number(erl)']
+        else:
+            df['TotalTraffic'] = None  
+
+        if '900134113:U31_Aggregate PS Data (MB)_900134_1_gv4.bsc-MO' in df.columns:
+            df['PSData'] = df['900134113:U31_Aggregate PS Data (MB)_900134_1_gv4.bsc-MO']
+        else:
+            df['PSData'] = None  
         #Data Cleaning
         df_missing = df.dropna()
         #Check Completenes 
@@ -151,8 +163,16 @@ class DataSet(models.Model):
                 df_duplicates['End Time'] = pd.to_datetime(df_duplicates['End Time'])
             except pd.errors.ParserError:  
                     print("Warning: Could not automatically convert 'Begin Time' and 'End Time' columns to datetime format")
+        columns_to_select = ['Begin Time', 'End Time', 'Granularity', 'Managed Element', 'SiteCode', 'BTS Name', 'ServiceRate', 'TotalTraffic']
 
-        df_drop = df_duplicates[['Begin Time','End Time','Granularity','Managed Element','SiteCode','BTS Name','ServiceRate','TotalTraffic']]
+        try:
+            df_drop = df_duplicates[columns_to_select]
+        except KeyError as e:
+            missing_columns = list(e.args[0])
+            print(f"Error: Missing columns {missing_columns} in DataFrame")
+            existing_columns = [col for col in columns_to_select if col in df_duplicates.columns]
+            df_drop = df_duplicates[existing_columns]
+        # df_drop = df_duplicates[['Begin Time','End Time','Granularity','Managed Element','SiteCode','BTS Name','ServiceRate','TotalTraffic']]
         print(df_drop.shape)
         df_site_name = pd.read_excel('CleanedData/siteNameCleaned.xlsx')
         df_merged = df_drop.merge(df_site_name, on='SiteCode', how='left')

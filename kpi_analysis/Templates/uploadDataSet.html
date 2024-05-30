@@ -39,13 +39,13 @@
    
     </style>
 </head>
-<body>  
+<body class="bg-info" >  
 
   
 <main class="form_id container-fluid d-flex align-items-center  mt-5 justify-content-center">     
 
   {% if display == 'None'%} 
- <form id='form-id' class="shadow-lg  mobile-form mb-5"
+ <form id='form-id' class="shadow-lg bg-white  mobile-form mb-5"
   method = 'POST'  style="width: 35%;" enctype="multipart/form-data">
  {% csrf_token %}
 

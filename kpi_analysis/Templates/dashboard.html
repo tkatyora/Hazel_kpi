@@ -119,7 +119,7 @@
               {%if user.roles == 'team-leader' %}   
               <li class="mb-2"><a class="text-decoration-none" href="{% url 'comments'%}">View Technician Comments</a> </li>
               <li class="mb-2"><a class=" text-decoration-none " href="{% url 'analysis_variable'%}">View KPI Analysis Variable</a> </li>
-           
+              <li class="mb-2"><a class=" text-decoration-none " href="{% url 'wholeanalysis'%}">Analysis Of Whole Region</a> </li>
               {%endif%} 
               {%if user.roles == 'technition' %}   
               <li class="mb-2"><a class=" text-decoration-none " href="{% url 'analysis'%}">Custom Analysis</a> </li>

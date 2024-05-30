@@ -248,9 +248,9 @@ class ServiceForm(forms.Form):
     service = [('low','Low[0 to 50%]'),
                  ('high','High [ 51 to 100%]'),
     ]
-    chart = [('bar','Bar Graph'),
-             ('Table','Table'),
-                 ('pie','Pie Chart'),
+    chart = [('pie','Pie Chart'),
+        ('bar','Bar Graph'),
+                 
                  ]
     Traffic =forms.ChoiceField(choices=traffic, 
                              label='Traffic',
@@ -267,7 +267,14 @@ class ServiceForm(forms.Form):
     region_b = forms.ChoiceField(choices=Region_b, 
                             label='Select Analysis Area',
                             required=False)
-
+    traffic_1 = forms.IntegerField(label='Start Traffic',
+                            required=False)
+    traffic_2 = forms.IntegerField(label='End Traffic',
+                            required=False)
+    service_1 = forms.DecimalField(label='Start Service',
+                            required=False)
+    service_2 = forms.DecimalField(label='End Service',
+                            required=False)
     
 
 
